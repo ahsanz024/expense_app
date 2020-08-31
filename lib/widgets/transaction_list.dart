@@ -5,66 +5,56 @@ import '../models/transaction.dart';
 
 class TransactionList extends StatelessWidget {
   final List<Transaction> _transactions;
+  final Function deleteTx;
 
-  TransactionList(this._transactions);
+  TransactionList(this._transactions, this.deleteTx);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       // color: Colors.grey,
-      height: 380,
-      child: ListView.builder(
-        itemCount: _transactions.length,
-        itemBuilder: (_, index) {
-          return Card(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Container(
-                  margin: EdgeInsets.symmetric(
-                    vertical: 10,
-                    horizontal: 15,
-                  ),
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                    color: Colors.purple,
-                    width: 2,
-                  )),
-                  child: Text(
-                    "\$${_transactions[index].amount.toStringAsFixed(2)}",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.purple,
+      height: 600,
+      child: _transactions.length > 0
+          ? ListView.builder(
+              itemCount: _transactions.length,
+              itemBuilder: (_, index) {
+                return Card(
+                  elevation: 6,
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      radius: 30,
+                      child: Padding(
+                        padding: EdgeInsets.all(6),
+                        child: FittedBox(
+                          child: Text(
+                              "\$${_transactions[index].amount.toStringAsFixed(2)}"),
+                        ),
+                      ),
                     ),
-                  ),
-                  padding: EdgeInsets.all(10),
-                ),
-                Column(
-                  children: [
-                    Text(
+                    title: Text(
                       _transactions[index].title,
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    Text(
+                    subtitle: Text(
                       DateFormat('dd-MMM-yyyy')
                           .format(_transactions[index].date),
-                      style: TextStyle(
-                        color: Colors.grey,
-                      ),
+                      style: TextStyle(color: Colors.grey),
                     ),
-                  ],
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                )
-              ],
-            ),
-            elevation: 5,
-          );
-        },
-      ),
+                    trailing: IconButton(
+                      icon: Icon(Icons.delete),
+                      color: Theme.of(context).errorColor,
+                      onPressed: () {
+                        this.deleteTx(_transactions[index].id);
+                      },
+                    ),
+                  ),
+                );
+              },
+            )
+          : Text('No expenses added yet!'),
     );
   }
 }
