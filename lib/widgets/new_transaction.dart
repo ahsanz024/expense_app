@@ -89,7 +89,7 @@ class _NewTransacationState extends State<NewTransacation> {
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       onPressed: _showDatePicker,
-                    )
+                    ),
                   ],
                 ),
               ),
