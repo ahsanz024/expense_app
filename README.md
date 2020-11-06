@@ -1,4 +1,4 @@
-# expense_app
+# Flutter Expenses App
 A flutter app for managing weekly expenses.
 
 **Android App**
